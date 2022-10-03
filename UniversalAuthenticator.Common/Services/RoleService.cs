@@ -1,9 +1,5 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Transactions;
 using UniversalAuthenticator.Common.Constants;
 using UniversalAuthenticator.Common.Extensions;
 using UniversalAuthenticator.Common.Interface;
@@ -13,19 +9,25 @@ using UniversalAuthenticator.Common.Models.ResponseModel;
 using UniversalAuthenticator.Domain.Data;
 using UniversalAuthenticator.Domain.Entities;
 
+
 namespace UniversalAuthenticator.Common.Services
 {
     public class RoleService : IRoleService
     {
         private readonly IRepository<Role> _roleRepository;
         private readonly IRepository<Permission> _permissionRepository;
+        private readonly IRepository<RoleClaim> _roleClaimRepository;
+        private readonly IRepository<ApplicationUserRole> _applicationUserRoleRepository;
         private readonly IMapper _mapper;
 
-        public RoleService(IRepository<Role> roleRepository, IMapper mapper, IRepository<Permission> permissionRepository)
+        public RoleService(IRepository<Role> roleRepository, IMapper mapper, IRepository<Permission> permissionRepository,
+            IRepository<RoleClaim> roleClaimRepository, IRepository<ApplicationUserRole> applicationUserRoleRepository)
         {
             _roleRepository = roleRepository;
             _mapper = mapper;
             _permissionRepository = permissionRepository;
+            _roleClaimRepository = roleClaimRepository;
+            _applicationUserRoleRepository = applicationUserRoleRepository;
         }
 
         public async Task<List<RoleDto>> ValidateApplicationRole(List<Guid> roles)
@@ -71,16 +73,44 @@ namespace UniversalAuthenticator.Common.Services
                 if(validatedPermissions.Count == 0)
                     throw new CustomException(CustomCodes.ModelValidationError, CustomMessages.Invalid_permission_supplied);
 
-                var appRole = new Role
+
+                //implement transaction scope to enable transaction-like data persistence
+                using(TransactionScope transactionScope = new TransactionScope())
                 {
-                    Id = Guid.NewGuid(),
-                    Name = request.Name,
-                    Description = request.Description,
-                    Status = true
-                };
+                    try
+                    {
+                        var appRole = new Role
+                        {
+                            Id = Guid.NewGuid(),
+                            Name = request.Name,
+                            Description = request.Description,
+                            Status = true
+                        };
+                        await _roleRepository.AddAsync(appRole);
+                        var roleClaim = new RoleClaim
+                        {
+                            ClaimType = "Bearer",
+                            ClaimValue = PermissionPackers.PackPermissionsIntoHexString(request.Permission),
+                            RoleId = appRole.Id,
+                            CreatedBy = ""
+                        };
+                        await _roleClaimRepository.AddAsync(roleClaim);
+                        
+                        transactionScope.Complete();
+                        transactionScope.Dispose();
 
-
-
+                        result.data = true;
+                        result.code = CustomCodes.Successful;
+                        result.message = CustomMessages.Successful;
+                    }
+                    catch(Exception ex)
+                    {
+                        transactionScope.Dispose();
+                        result.data = false;
+                        result.code = CustomCodes.Something_went_wrong;
+                        result.message = CustomMessages.SomethingWentWrong;
+                    }
+                }                             
 
             }
             catch(CustomException cEx)
@@ -103,6 +133,29 @@ namespace UniversalAuthenticator.Common.Services
             }
 
             return new Tuple<GenericResponse<bool>, ErrorResponse>(result, error);
+        }
+
+        public async Task AddUserRole(List<Guid> roleIds, Guid userId)
+        {
+            if(roleIds.Count > 0)
+            {
+                foreach (var roleId in roleIds)
+                {
+                    var userrole_exist = await _applicationUserRoleRepository.GetFirstAsync(x => x.ApplicationUserId == userId && x.RoleId == roleId);
+                    if (userrole_exist == null)
+                    {
+                        var userRole = new ApplicationUserRole
+                        {
+                            ApplicationUserId = userId,
+                            Id = Guid.NewGuid(),
+                            RoleId = roleId,
+                            CreatedBy = ""
+                        };
+                        await _applicationUserRoleRepository.AddAsync(userRole);
+                    }
+                }
+            }
+            
         }
 
 

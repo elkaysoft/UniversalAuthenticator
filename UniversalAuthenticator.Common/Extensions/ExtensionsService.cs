@@ -9,6 +9,30 @@ namespace UniversalAuthenticator.Common.Extensions
 {
     public static class ExtensionsService
     {
+        /// <summary>
+        /// Splits string into comma separated list
+        /// </summary>
+        /// <param name="csvList">The string to convert to csv.</param>
+        /// <returns>System.Collection</returns>
+        public static List<string> SplitCsv(this string csvList, bool nullOrWhitespaceInputReturnsNull = false)
+        {
+            if (string.IsNullOrWhiteSpace(csvList))
+                return nullOrWhitespaceInputReturnsNull ? null : new List<string>();
+
+            return csvList
+                .TrimEnd(',')
+                .Split(',')
+                .AsEnumerable<string>()
+                .Select(s => s.Trim())
+                .ToList();
+        }
+
+
+        /// <summary>
+        /// Generates alphanumeric text
+        /// </summary>
+        /// <param name="size">The character length.</param>
+        /// <returns>System.String.</returns>
         public static string GenerateAlphaNumeric(int size)
         {
             var bits = (size * 6);
