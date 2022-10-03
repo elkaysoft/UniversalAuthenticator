@@ -1,0 +1,12 @@
+C:\shz\UniversalAuthenticator\UniversalAuthenticator.Domain\bin\Debug\net6.0\UniversalAuthenticator.Domain.deps.json
+C:\shz\UniversalAuthenticator\UniversalAuthenticator.Domain\bin\Debug\net6.0\UniversalAuthenticator.Domain.dll
+C:\shz\UniversalAuthenticator\UniversalAuthenticator.Domain\bin\Debug\net6.0\UniversalAuthenticator.Domain.pdb
+C:\shz\UniversalAuthenticator\UniversalAuthenticator.Domain\obj\Debug\net6.0\UniversalAuthenticator.Domain.csproj.AssemblyReference.cache
+C:\shz\UniversalAuthenticator\UniversalAuthenticator.Domain\obj\Debug\net6.0\UniversalAuthenticator.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\shz\UniversalAuthenticator\UniversalAuthenticator.Domain\obj\Debug\net6.0\UniversalAuthenticator.Domain.AssemblyInfoInputs.cache
+C:\shz\UniversalAuthenticator\UniversalAuthenticator.Domain\obj\Debug\net6.0\UniversalAuthenticator.Domain.AssemblyInfo.cs
+C:\shz\UniversalAuthenticator\UniversalAuthenticator.Domain\obj\Debug\net6.0\UniversalAuthenticator.Domain.csproj.CoreCompileInputs.cache
+C:\shz\UniversalAuthenticator\UniversalAuthenticator.Domain\obj\Debug\net6.0\UniversalAuthenticator.Domain.dll
+C:\shz\UniversalAuthenticator\UniversalAuthenticator.Domain\obj\Debug\net6.0\refint\UniversalAuthenticator.Domain.dll
+C:\shz\UniversalAuthenticator\UniversalAuthenticator.Domain\obj\Debug\net6.0\UniversalAuthenticator.Domain.pdb
+C:\shz\UniversalAuthenticator\UniversalAuthenticator.Domain\obj\Debug\net6.0\ref\UniversalAuthenticator.Domain.dll

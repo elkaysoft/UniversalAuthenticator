@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "lDsTbFd8qDwpRzLSUm1Gzans28cpnnOw6jRHDTNvu9A=",
+  "Source": "UniversalAuthenticator.Api",
+  "BasePath": "_content/UniversalAuthenticator.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
