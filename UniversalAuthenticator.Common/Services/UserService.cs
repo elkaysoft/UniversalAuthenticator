@@ -1,9 +1,11 @@
-﻿using UniversalAuthenticator.Common.Constants;
+﻿using AutoMapper;
+using UniversalAuthenticator.Common.Constants;
 using UniversalAuthenticator.Common.Extensions;
 using UniversalAuthenticator.Common.Interface;
 using UniversalAuthenticator.Common.Models.DTO;
 using UniversalAuthenticator.Common.Models.Request;
 using UniversalAuthenticator.Common.Models.ResponseModel;
+using UniversalAuthenticator.Domain.Data;
 using UniversalAuthenticator.Domain.Entities;
 
 
@@ -12,10 +14,14 @@ namespace UniversalAuthenticator.Common.Services
     public class UserService: IUserService
     {
         private readonly IRoleService _roleService;
+        private readonly IMapper _mapper;
+        private readonly IRepository<ApplicationUser> _userRepository;
 
-        public UserService(IRoleService roleService)
+        public UserService(IRoleService roleService, IRepository<ApplicationUser> userRepository, IMapper mapper)
         {
             _roleService = roleService;
+            _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         public async Task<Tuple<ErrorResponse, GenericResponse<UserOnboardingDto>>> OnboardUser(CreateUserRequest request)
@@ -49,6 +55,13 @@ namespace UniversalAuthenticator.Common.Services
                     ForceChangeOfPassword = true,
                     SaltedHashedPassword = hashPassword(temporaryPassword)
                 };
+                await _userRepository.AddAsync(user);
+                await _roleService.AddUserRole(request.Roles, user.Id);
+
+                response.data = _mapper.Map<UserOnboardingDto>(user);
+                response.code = CustomCodes.Successful;
+                response.message = CustomMessages.Successful;               
+
             }
             catch (CustomException cEx)
             {

@@ -42,6 +42,8 @@ namespace UniversalAuthenticator.Common.Constants
 
         #region General Messages
 
+        public const string Successful = "Request successfully completed";
+
         public const string InvalidEmailFormat = "The format of the email entered is invalid";
 
         public const string SomethingWentWrong = "Oops! Something went wrong, please try again later";
