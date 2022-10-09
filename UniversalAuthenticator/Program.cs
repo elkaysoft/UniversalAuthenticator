@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using UniversalAuthenticator.Common.Extensions;
 using UniversalAuthenticator.Domain.Data;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -18,9 +19,9 @@ builder.Services.AddSwaggerGen();
 
 ApplicationDependency.AddApplicationDI(builder.Services);
 EntityDependency.AddPersistenceDI(builder.Services);
-
-
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 

@@ -23,6 +23,11 @@ namespace UniversalAuthenticator.Common.Services
             _appUserRepository = appUserRepository;
         }
 
+        public async Task<Tuple<bool, ErrorResponse>> Authenticate(LoginRequest model)
+        {
+            return null;
+        }
+
         
 
         #region Private Methods

@@ -11,5 +11,6 @@ namespace UniversalAuthenticator.Common.Extensions
         public string BlacklistedUsernameCharacters { get; set; }
         public string EmailApiBaseUrl { get; set; }
         public string SmsApiBaseUrl { get; set; }
+        public string DefaultEmailSender { get; set; }
     }
 }

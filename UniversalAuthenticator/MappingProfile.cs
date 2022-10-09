@@ -10,6 +10,9 @@ namespace UniversalAuthenticator.Api
         {
             CreateMap<ApplicationUser, UserOnboardingDto>();
             CreateMap<Role, RoleDto>();
+            CreateMap<SystemConfiguration, SystemConfigurationDto>();
+            CreateMap<SMSTemplate, SmsTemplateDto>();
+            CreateMap<EmailTemplate, EmailTemplateDto>();
         }
     }
 }

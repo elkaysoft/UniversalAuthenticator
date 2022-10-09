@@ -21,4 +21,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\UniversalAuthenticator.Common\UniversalAuthenticator.Common.csproj" />
+  </ItemGroup>
+
 </Project>

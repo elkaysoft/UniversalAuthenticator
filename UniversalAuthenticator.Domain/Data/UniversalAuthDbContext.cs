@@ -20,12 +20,14 @@ namespace UniversalAuthenticator.Domain.Data
         public virtual DbSet<ApplicationUserRole> UserRoles { get; set; }
         public virtual DbSet<EmailTemplate> EmailTemplates { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
-        public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
+        //public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<RoleClaim> RoleClaims { get; set; }
         public virtual DbSet<SecurityQuestion> SecurityQuestions { get; set; }
         public virtual DbSet<SystemConfiguration> SystemConfigurations { get; set; }
         public virtual DbSet<ValidationToken> ValidationTokens { get; set; }
+
+        public virtual DbSet<SMSTemplate> SMSTemplates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -39,7 +41,7 @@ namespace UniversalAuthenticator.Domain.Data
 
             modelBuilder.ApplyConfiguration(new PermissionConfiguration());
 
-            modelBuilder.ApplyConfiguration(new RefreshTokenConfiguration());
+            //modelBuilder.ApplyConfiguration(new RefreshTokenConfiguration());
 
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
 

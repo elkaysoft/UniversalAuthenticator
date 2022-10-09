@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UniversalAuthenticator.Common.Models.DTO
 {
-    public class EmailTemplateDto
+    public class EmailTemplateDto: BaseDto
     {
         public string Subject { get; set; }
         public string Body { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UniversalAuthenticator.Common.Models.DTO
 {
-    public class UserOnboardingDto
+    public class UserOnboardingDto: BaseDto
     {
         public string Username { get; set; }
         public string FirstName { get; set; }

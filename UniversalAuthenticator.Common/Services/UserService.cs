@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using UniversalAuthenticator.Common.Constants;
+using UniversalAuthenticator.Common.Enums;
 using UniversalAuthenticator.Common.Extensions;
 using UniversalAuthenticator.Common.Interface;
 using UniversalAuthenticator.Common.Models.DTO;
@@ -9,6 +10,7 @@ using UniversalAuthenticator.Domain.Data;
 using UniversalAuthenticator.Domain.Entities;
 
 
+
 namespace UniversalAuthenticator.Common.Services
 {
     public class UserService: IUserService
@@ -16,12 +18,17 @@ namespace UniversalAuthenticator.Common.Services
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
         private readonly IRepository<ApplicationUser> _userRepository;
+        private readonly IConfigurationService _configurationService;
+        private readonly ICommunicationService _communicationService;
 
-        public UserService(IRoleService roleService, IRepository<ApplicationUser> userRepository, IMapper mapper)
+        public UserService(IRoleService roleService, IRepository<ApplicationUser> userRepository, IMapper mapper, IConfigurationService configurationService,
+                                ICommunicationService communicationService)
         {
             _roleService = roleService;
             _userRepository = userRepository;
             _mapper = mapper;
+            _configurationService = configurationService;
+            _communicationService = communicationService;
         }
 
         public async Task<Tuple<ErrorResponse, GenericResponse<UserOnboardingDto>>> OnboardUser(CreateUserRequest request)
@@ -35,6 +42,9 @@ namespace UniversalAuthenticator.Common.Services
                 if (validatedRole.Count == 0)
                     throw new CustomException(CustomCodes.ModelValidationError, CustomMessages.Invalid_roles_supplied);
 
+                var emailTemplate = await _configurationService.GetEmailTemplate(EmailTemplateEnum.Onboarding.DisplayName());
+                if(!emailTemplate.Item1)
+                    throw new CustomException(CustomCodes.ModelValidationError, CustomMessages.EmailTemplateNotFound);
 
                 string temporaryPassword = ExtensionsService.GenerateAlphaNumeric(12);
                 var user = new ApplicationUser
@@ -55,8 +65,14 @@ namespace UniversalAuthenticator.Common.Services
                     ForceChangeOfPassword = true,
                     SaltedHashedPassword = hashPassword(temporaryPassword)
                 };
+
+                if (user.EnableMultiFactorAuthentication) 
+                    user.MultiFactorAuthenticationType = request.MultiFactorAuthenticationType.DisplayName();
+
                 await _userRepository.AddAsync(user);
                 await _roleService.AddUserRole(request.Roles, user.Id);
+
+                await SendOnboardingEmail(emailTemplate.Item2.Body, emailTemplate.Item2.Subject, temporaryPassword, user);                
 
                 response.data = _mapper.Map<UserOnboardingDto>(user);
                 response.code = CustomCodes.Successful;
@@ -93,6 +109,14 @@ namespace UniversalAuthenticator.Common.Services
         {
             int saltRound = 10;
             return BCrypt.Net.BCrypt.HashPassword(plainText, saltRound);
+        }
+
+        private async Task SendOnboardingEmail(string body, string subject, string password, ApplicationUser user)
+        {
+            body = body.Replace("{FIRST_NAME}", user.FirstName).Replace("{USERNAME}", user.Username)
+               .Replace("{PASSWORD}", password);
+
+            await _communicationService.SendEmail(user.Email, subject, body);            
         }
 
         #endregion

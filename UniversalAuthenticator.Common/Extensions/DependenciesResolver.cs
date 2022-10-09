@@ -16,6 +16,9 @@ namespace UniversalAuthenticator.Common.Extensions
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICommunicationService, CommunicationService>();
+            services.AddScoped<IConfigurationService, ConfigurationService>();
+            services.AddScoped<IHttpService, HttpService>();
         }
     }
 

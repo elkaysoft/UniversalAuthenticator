@@ -67,3 +67,6 @@ C:\shz\UniversalAuthenticator\UniversalAuthenticator\bin\Debug\net6.0\UniversalA
 C:\shz\UniversalAuthenticator\UniversalAuthenticator\bin\Debug\net6.0\UniversalAuthenticator.Domain.pdb
 C:\shz\UniversalAuthenticator\UniversalAuthenticator\bin\Debug\net6.0\FluentValidation.DependencyInjectionExtensions.dll
 C:\shz\UniversalAuthenticator\UniversalAuthenticator\bin\Debug\net6.0\AutoMapper.dll
+C:\shz\UniversalAuthenticator\UniversalAuthenticator\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\shz\UniversalAuthenticator\UniversalAuthenticator\bin\Debug\net6.0\RestSharp.dll
+C:\shz\UniversalAuthenticator\UniversalAuthenticator\bin\Debug\net6.0\Newtonsoft.Json.dll

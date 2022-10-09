@@ -16,6 +16,8 @@ namespace UniversalAuthenticator.Common.Models.Request
         public GenderEnum Gender { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        public bool EnableMultiFactorAuthentication { get; set; }
+        public MultiFactorAuthenticationEnum MultiFactorAuthenticationType { get; set; }
 
         public List<Guid> Roles { get; set; } = new List<Guid>();
     }

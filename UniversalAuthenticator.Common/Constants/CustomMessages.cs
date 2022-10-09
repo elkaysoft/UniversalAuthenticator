@@ -48,6 +48,10 @@ namespace UniversalAuthenticator.Common.Constants
 
         public const string SomethingWentWrong = "Oops! Something went wrong, please try again later";
 
+        public const string EmailTemplateNotFound = "Email Template not found";
+
+        public const string SystemConfigNotFound = "System Configuration not found";
+
         #endregion
 
     }
