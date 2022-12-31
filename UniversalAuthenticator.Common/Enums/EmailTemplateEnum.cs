@@ -14,7 +14,8 @@ namespace UniversalAuthenticator.Common.Enums
         [Display(Name = "Onboarding")]
         Onboarding,
         [Display(Name = "Reset Password")]
-        PasswordReset
-
+        PasswordReset,
+        [Display(Name = "MultiFactor Authentication")]
+        MFA
     }
 }

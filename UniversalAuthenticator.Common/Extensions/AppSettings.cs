@@ -12,5 +12,7 @@ namespace UniversalAuthenticator.Common.Extensions
         public string EmailApiBaseUrl { get; set; }
         public string SmsApiBaseUrl { get; set; }
         public string DefaultEmailSender { get; set; }
+        public string PasswordChangeKey { get; set; }
+        public string ResetKey { get; set; }        
     }
 }

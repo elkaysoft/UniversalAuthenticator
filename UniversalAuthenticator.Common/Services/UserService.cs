@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 using UniversalAuthenticator.Common.Constants;
 using UniversalAuthenticator.Common.Enums;
 using UniversalAuthenticator.Common.Extensions;
@@ -11,6 +13,7 @@ using UniversalAuthenticator.Domain.Entities;
 
 
 
+
 namespace UniversalAuthenticator.Common.Services
 {
     public class UserService: IUserService
@@ -20,15 +23,29 @@ namespace UniversalAuthenticator.Common.Services
         private readonly IRepository<ApplicationUser> _userRepository;
         private readonly IConfigurationService _configurationService;
         private readonly ICommunicationService _communicationService;
+        
+        private readonly IRequestTransmitter _requestTransmitter;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
 
         public UserService(IRoleService roleService, IRepository<ApplicationUser> userRepository, IMapper mapper, IConfigurationService configurationService,
-                                ICommunicationService communicationService)
+                                ICommunicationService communicationService, IHttpContextAccessor httpContextAccessor, IRequestTransmitter requestTransmitter)
         {
             _roleService = roleService;
             _userRepository = userRepository;
             _mapper = mapper;
             _configurationService = configurationService;
             _communicationService = communicationService;
+            _httpContextAccessor = httpContextAccessor;
+            _requestTransmitter = requestTransmitter;
+
+            var identity = _httpContextAccessor.HttpContext.User.Identity as ClaimsIdentity;
+            if(identity != null)
+            {
+                _requestTransmitter.RequestingIPAddress = httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
+                _requestTransmitter.RequestingUserName = identity?.Name;
+                _requestTransmitter.Authorization = _httpContextAccessor.HttpContext.Request.Headers["Authorization"];
+            }
         }
 
         public async Task<Tuple<ErrorResponse, GenericResponse<UserOnboardingDto>>> OnboardUser(CreateUserRequest request)
@@ -63,7 +80,9 @@ namespace UniversalAuthenticator.Common.Services
                     PasswordTries = 0,
                     Username = request.UserName,
                     ForceChangeOfPassword = true,
-                    SaltedHashedPassword = hashPassword(temporaryPassword)
+                    SaltedHashedPassword = hashPassword(temporaryPassword), 
+                    CreatedBy = _requestTransmitter.RequestingUserName,
+                    CreatedByIp = _requestTransmitter.RequestingIPAddress
                 };
 
                 if (user.EnableMultiFactorAuthentication) 

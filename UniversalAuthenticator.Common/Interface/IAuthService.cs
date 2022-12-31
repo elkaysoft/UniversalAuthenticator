@@ -11,6 +11,6 @@ namespace UniversalAuthenticator.Common.Interface
 {
     public interface IAuthService
     {
-        
+        Task<Tuple<GenericResponse<LoginResponseDto>, ErrorResponse>> Authenticate(LoginRequest model);
     }
 }

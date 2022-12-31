@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -18,9 +19,9 @@ namespace UniversalAuthenticator.Common.Security
         private readonly TokenOptions _tokenOptions;
         private readonly SigningConfigurations _signingConfigurations;
 
-        public TokenHandler(TokenOptions tokenOptions, SigningConfigurations signingConfigurations)
+        public TokenHandler(IOptions<TokenOptions> tokenOptions, SigningConfigurations signingConfigurations)
         {
-            _tokenOptions = tokenOptions;
+            _tokenOptions = tokenOptions.Value;
             _signingConfigurations = signingConfigurations;
         }        
         
@@ -86,7 +87,7 @@ namespace UniversalAuthenticator.Common.Security
         {
             var claim = new[]
             {
-                new Claim(ClaimTypes.Name, user.FirstName),
+                new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),

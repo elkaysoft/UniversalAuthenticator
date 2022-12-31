@@ -15,5 +15,6 @@ namespace UniversalAuthenticator.Domain.Entities
         public bool EnforceMultiFactorAuthentication { get; set; }        
         public bool EnforceUserPasswordExpiry { get; set; }
         public int UserPasswordExpiryInDays { get; set; }
+        public int ValidationTokenExpiration { get; set; }
     }
 }

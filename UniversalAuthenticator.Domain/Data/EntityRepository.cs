@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using UniversalAuthenticator.Domain.Paging;
 
 namespace UniversalAuthenticator.Domain.Data
@@ -64,7 +59,7 @@ namespace UniversalAuthenticator.Domain.Data
             return await _context.Set<T>().FirstOrDefaultAsync();
         }
 
-        public async Task<T> GetFirstAsync(params Expression<Func<T, object>>[] includeExpressions)
+        public async Task<T> GetSingleAsync(params Expression<Func<T, object>>[] includeExpressions)
         {
             IQueryable<T> set = _context.Set<T>();
             foreach(var include in includeExpressions)

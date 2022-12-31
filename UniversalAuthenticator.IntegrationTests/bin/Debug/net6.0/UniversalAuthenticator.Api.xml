@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UniversalAuthenticator.Api</name>
+    </assembly>
+    <members>
+        <member name="T:UniversalAuthenticator.Api.Controllers.AuthenticationController">
+            <summary>
+            Authentication Controller
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UniversalAuthenticator.Api.Controllers.AuthenticationController.Login(UniversalAuthenticator.Common.Models.Request.LoginRequest)">
+            <summary>
+            Login to generate bearer token
+            </summary>        
+            <returns></returns>    
+            <response code="200">Returns a bearer token</response>
+            <response code="400">If authentication fails</response>
+        </member>
+    </members>
+</doc>

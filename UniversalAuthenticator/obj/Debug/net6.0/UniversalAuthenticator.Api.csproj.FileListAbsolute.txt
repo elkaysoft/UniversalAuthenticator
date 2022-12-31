@@ -70,3 +70,6 @@ C:\shz\UniversalAuthenticator\UniversalAuthenticator\bin\Debug\net6.0\AutoMapper
 C:\shz\UniversalAuthenticator\UniversalAuthenticator\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\shz\UniversalAuthenticator\UniversalAuthenticator\bin\Debug\net6.0\RestSharp.dll
 C:\shz\UniversalAuthenticator\UniversalAuthenticator\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\shz\UniversalAuthenticator\UniversalAuthenticator\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\shz\UniversalAuthenticator\UniversalAuthenticator\bin\Debug\net6.0\UniversalAuthenticator.Api.xml
+C:\shz\UniversalAuthenticator\UniversalAuthenticator\obj\Debug\net6.0\UniversalAuthenticator.Api.xml

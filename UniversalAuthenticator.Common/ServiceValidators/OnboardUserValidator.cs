@@ -51,7 +51,7 @@ namespace UniversalAuthenticator.Common.ServiceValidators
         {
             try
             {
-                var appUser = await _appUserRepository.GetFirstAsync(x => x.Username == username);
+                var appUser = await _appUserRepository.GetSingleAsync(x => x.Username == username);
                 if (appUser == null)
                     return true;
                 else
@@ -67,7 +67,7 @@ namespace UniversalAuthenticator.Common.ServiceValidators
         {
             try
             {
-                var appUser = await _appUserRepository.GetFirstAsync(x => x.PhoneNumber == mobile);
+                var appUser = await _appUserRepository.GetSingleAsync(x => x.PhoneNumber == mobile);
                 if (appUser == null)
                     return true;
                 else
@@ -83,7 +83,7 @@ namespace UniversalAuthenticator.Common.ServiceValidators
         {
             try
             {
-                var appUser = await _appUserRepository.GetFirstAsync(x => x.Email == email);
+                var appUser = await _appUserRepository.GetSingleAsync(x => x.Email == email);
                 if (appUser == null)
                     return true;
                 else

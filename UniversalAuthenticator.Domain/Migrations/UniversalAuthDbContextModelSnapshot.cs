@@ -168,8 +168,7 @@ namespace UniversalAuthenticator.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId")
-                        .IsUnique();
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("UserRoles");
                 });
@@ -567,6 +566,9 @@ namespace UniversalAuthenticator.Domain.Migrations
                     b.Property<int>("UserPasswordExpiryInDays")
                         .HasColumnType("int");
 
+                    b.Property<int>("ValidationTokenExpiration")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("SystemConfigurations");
@@ -591,7 +593,13 @@ namespace UniversalAuthenticator.Domain.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DateGenerated")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("DateModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
@@ -605,7 +613,13 @@ namespace UniversalAuthenticator.Domain.Migrations
 
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("TokenType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -618,8 +632,8 @@ namespace UniversalAuthenticator.Domain.Migrations
             modelBuilder.Entity("UniversalAuthenticator.Domain.Entities.ApplicationUserRole", b =>
                 {
                     b.HasOne("UniversalAuthenticator.Domain.Entities.ApplicationUser", "User")
-                        .WithOne("UserRole")
-                        .HasForeignKey("UniversalAuthenticator.Domain.Entities.ApplicationUserRole", "ApplicationUserId")
+                        .WithMany("UserRole")
+                        .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -650,8 +664,7 @@ namespace UniversalAuthenticator.Domain.Migrations
 
             modelBuilder.Entity("UniversalAuthenticator.Domain.Entities.ApplicationUser", b =>
                 {
-                    b.Navigation("UserRole")
-                        .IsRequired();
+                    b.Navigation("UserRole");
 
                     b.Navigation("refreshTokens");
                 });

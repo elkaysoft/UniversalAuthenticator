@@ -47,9 +47,7 @@ namespace UniversalAuthenticator.Domain.Config
 
             builder.Property(x => x.Gender).IsRequired();
 
-            builder.HasOne(u => u.UserRole)
-                .WithOne(ur => ur.User)
-                .HasForeignKey<ApplicationUserRole>(au => au.ApplicationUserId);    
+             
                         
         }
     }

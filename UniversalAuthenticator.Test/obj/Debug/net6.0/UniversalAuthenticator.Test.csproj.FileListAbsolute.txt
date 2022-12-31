@@ -147,3 +147,5 @@ C:\shz\UniversalAuthenticator\UniversalAuthenticator.Test\bin\Debug\net6.0\Unive
 C:\shz\UniversalAuthenticator\UniversalAuthenticator.Test\bin\Debug\net6.0\UniversalAuthenticator.Common.pdb
 C:\shz\UniversalAuthenticator\UniversalAuthenticator.Test\bin\Debug\net6.0\UniversalAuthenticator.Domain.pdb
 C:\shz\UniversalAuthenticator\UniversalAuthenticator.Test\bin\Debug\net6.0\RestSharp.dll
+C:\shz\UniversalAuthenticator\UniversalAuthenticator.Test\bin\Debug\net6.0\Microsoft.AspNetCore.Http.Abstractions.dll
+C:\shz\UniversalAuthenticator\UniversalAuthenticator.Test\bin\Debug\net6.0\Microsoft.AspNetCore.Http.Features.dll

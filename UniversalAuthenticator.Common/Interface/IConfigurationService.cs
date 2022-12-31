@@ -15,7 +15,7 @@ namespace UniversalAuthenticator.Common.Interface
 
         Task<Tuple<bool, SmsTemplateDto>> GetSmsTemplate(string smsType);
 
-        Task<Tuple<ErrorResponse, GenericResponse<SystemConfigurationDto>>> GetSystemConfiguration();
+        Task<Tuple<ErrorResponse, SystemConfigurationDto>> GetSystemConfiguration();
 
         Task<Tuple<ErrorResponse, GenericResponse<bool>>> UpdateSystemConfiguration(UpdateSystemConfigRequest model);
     }

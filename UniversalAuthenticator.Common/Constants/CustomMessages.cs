@@ -40,6 +40,28 @@ namespace UniversalAuthenticator.Common.Constants
 
         #endregion
 
+        #region Login Response Messages
+        public const string UserNotFound = "User record does not exist";
+
+        public const string AccountInactive = "Your profile is currently not active, kindly contact administrator.";
+
+        public const string PasswordTrialExceeded = "Password tries exceeded. Please contact administrator for assistance.";
+
+        public const string InvalidLogin = "Invalid Login Details.";
+
+        public const string TemporaryPasswordExpired = "Temporary password has expired, please contact administrator.";
+
+        public const string PromptChangePassword = "Kindly change your temporary password";
+
+        public const string PromptMultifactorAuthentication = "Multi-factor authentication is required";
+
+        public const string InvalidRefreshToken = "Invalid Refresh Token";
+
+        public const string UsernameRequired = "Username is required";
+
+        public const string PasswordRequired = "Password is required";
+        #endregion
+
         #region General Messages
 
         public const string Successful = "Request successfully completed";

@@ -16,7 +16,7 @@ namespace UniversalAuthenticator.Domain.Data
         Task<T> GetByAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeExpressions);
 
         Task<T> GetFirstAsync();
-        Task<T> GetFirstAsync(params Expression<Func<T, object>>[] includeExpressions);
+        Task<T> GetSingleAsync(params Expression<Func<T, object>>[] includeExpressions);
         Task<IReadOnlyList<T>> ListAllAsync();
         Task<List<T>> ListAllAsync(params Expression<Func<T, object>>[] includeExpressions);
         Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec);

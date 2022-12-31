@@ -65,7 +65,7 @@ namespace UniversalAuthenticator.Common.Services
                     throw new CustomException(CustomCodes.ModelValidationError, CustomMessages.Role_is_required);
 
                 
-                var role_exist = await _roleRepository.GetFirstAsync(x => x.Name == request.Name);
+                var role_exist = await _roleRepository.GetSingleAsync(x => x.Name == request.Name);
                 if (role_exist != null)
                     throw new CustomException(CustomCodes.ModelValidationError, $"{request.Name} already exist!");
 
@@ -141,7 +141,7 @@ namespace UniversalAuthenticator.Common.Services
             {
                 foreach (var roleId in roleIds)
                 {
-                    var userrole_exist = await _applicationUserRoleRepository.GetFirstAsync(x => x.ApplicationUserId == userId && x.RoleId == roleId);
+                    var userrole_exist = await _applicationUserRoleRepository.GetSingleAsync(x => x.ApplicationUserId == userId && x.RoleId == roleId);
                     if (userrole_exist == null)
                     {
                         var userRole = new ApplicationUserRole
@@ -157,6 +157,8 @@ namespace UniversalAuthenticator.Common.Services
             }
             
         }
+
+        
 
 
         #region Private Methods

@@ -32,7 +32,12 @@ namespace UniversalAuthenticator.Domain.Config
 
             builder.Property(x => x.CreatedByIp).IsRequired();
 
-            builder.Property(x => x.RoleId).IsRequired();                        
+            builder.Property(x => x.RoleId).IsRequired();
+
+            builder.HasOne(u => u.User)
+                .WithMany(c => c.UserRole)
+                .HasForeignKey(c => c.ApplicationUserId);
+
         }
     }
 }

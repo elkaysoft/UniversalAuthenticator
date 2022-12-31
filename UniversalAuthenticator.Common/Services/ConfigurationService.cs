@@ -20,14 +20,16 @@ namespace UniversalAuthenticator.Common.Services
         private readonly IRepository<EmailTemplate> _emailTemplateRepo;
         private readonly IRepository<SMSTemplate> _smsTemplateRepo;
         private readonly IRepository<SystemConfiguration> _systemConfigRepository;
+        private readonly ILogManager _logManager;
         private readonly IMapper _mapper;
 
-        public ConfigurationService(IRepository<EmailTemplate> emailTemplateRepo, IMapper mapper, IRepository<SMSTemplate> smsTemplateRepo, IRepository<SystemConfiguration> systemConfigRepository)
+        public ConfigurationService(IRepository<EmailTemplate> emailTemplateRepo, IMapper mapper, IRepository<SMSTemplate> smsTemplateRepo, IRepository<SystemConfiguration> systemConfigRepository, ILogManager logManager)
         {
             _emailTemplateRepo = emailTemplateRepo;
             _mapper = mapper;
             _smsTemplateRepo = smsTemplateRepo;
             _systemConfigRepository = systemConfigRepository;
+            _logManager = logManager;
         }
 
         public async Task<Tuple<bool, EmailTemplateDto>> GetEmailTemplate(string emailType)
@@ -37,7 +39,7 @@ namespace UniversalAuthenticator.Common.Services
 
             try
             {
-                var data = await _emailTemplateRepo.GetFirstAsync(x => x.EmailType == emailType && x.Status);
+                var data = await _emailTemplateRepo.GetSingleAsync(x => x.EmailType == emailType && x.Status);
                 if(data != null)
                 {
                     status = true;
@@ -46,6 +48,7 @@ namespace UniversalAuthenticator.Common.Services
             }
             catch(Exception ex)
             {
+                await _logManager.LogException(ex.ToString());
                 status = false;
             }
 
@@ -59,7 +62,7 @@ namespace UniversalAuthenticator.Common.Services
 
             try
             {
-                var data = await _smsTemplateRepo.GetFirstAsync(x => x.SMSType == smsType && x.Status);
+                var data = await _smsTemplateRepo.GetSingleAsync(x => x.SMSType == smsType && x.Status);
                 if (data != null)
                 {
                     status = true;
@@ -68,27 +71,25 @@ namespace UniversalAuthenticator.Common.Services
             }
             catch (Exception ex)
             {
+                await _logManager.LogException(ex.ToString());
                 status = false;
             }
 
             return new Tuple<bool, SmsTemplateDto>(status, result);
         }
 
-        public async Task<Tuple<ErrorResponse, GenericResponse<SystemConfigurationDto>>> GetSystemConfiguration()
+        public async Task<Tuple<ErrorResponse, SystemConfigurationDto>> GetSystemConfiguration()
         {
             var error = new ErrorResponse();
-            var result = new GenericResponse<SystemConfigurationDto>();
+            var result = new SystemConfigurationDto();
 
             try 
             {
-                var config = await _systemConfigRepository.GetFirstAsync(x => !x.IsDeleted);
+                var config = await _systemConfigRepository.GetSingleAsync(x => !x.IsDeleted);
                 if(config == null)
                     throw new CustomException(CustomCodes.ModelValidationError, CustomMessages.SystemConfigNotFound);
 
-                var data = _mapper.Map<SystemConfigurationDto>(config);
-                result.data = data;
-                result.message = CustomMessages.Successful;
-                result.code = CustomCodes.Successful;
+                result = _mapper.Map<SystemConfigurationDto>(config);
             }
             catch (CustomException cEx)
             {
@@ -100,8 +101,7 @@ namespace UniversalAuthenticator.Common.Services
             }
             catch (Exception ex)
             {
-                //log exception
-                ex.ToString();
+                await _logManager.LogException(ex.ToString());
                 error.Errors.Add(new ErrorModel
                 {
                     code = CustomCodes.Something_went_wrong,
@@ -109,7 +109,7 @@ namespace UniversalAuthenticator.Common.Services
                 });
             }
 
-            return new Tuple<ErrorResponse, GenericResponse<SystemConfigurationDto>>(error, result);
+            return new Tuple<ErrorResponse, SystemConfigurationDto>(error, result);
         }
 
         public async Task<Tuple<ErrorResponse, GenericResponse<bool>>> UpdateSystemConfiguration(UpdateSystemConfigRequest model)
@@ -141,8 +141,7 @@ namespace UniversalAuthenticator.Common.Services
             }
             catch(Exception ex)
             {
-                //log exception
-                ex.ToString();
+                await _logManager.LogException(ex.ToString());
                 error.Errors.Add(new ErrorModel
                 {
                     code = CustomCodes.Something_went_wrong,

@@ -43,6 +43,16 @@ namespace UniversalAuthenticator.Common.Extensions
             return Convert.ToBase64String(randomNumber);
         }
 
+        public static int GenerateRandomNumbers(int size)
+        {            
+            var random = RandomNumberGenerator.Create();
+            byte[] rno = new byte[size];
+            random.GetBytes(rno);
+            int randomValue = BitConverter.ToInt32(rno, 0);
+            return randomValue;
+        }
+
+
         /// <summary>
         /// Encode base64 string
         /// </summary>

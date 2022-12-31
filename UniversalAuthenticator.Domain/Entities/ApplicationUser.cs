@@ -29,7 +29,7 @@ namespace UniversalAuthenticator.Domain.Entities
         public bool EnableMultiFactorAuthentication { get; set; }
         public string? MultiFactorAuthenticationType { get; set; }
         public bool IsActive { get; set; }
-        public ApplicationUserRole UserRole { get; set; }
+        public ICollection<ApplicationUserRole> UserRole { get; set; }
 
         public ICollection<RefreshToken> refreshTokens { get; set; }
     }

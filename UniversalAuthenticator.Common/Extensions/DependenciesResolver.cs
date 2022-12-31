@@ -5,6 +5,7 @@ using System.Reflection;
 using FluentValidation;
 using UniversalAuthenticator.Common.Interface;
 using UniversalAuthenticator.Common.Services;
+using UniversalAuthenticator.Common.Security;
 
 namespace UniversalAuthenticator.Common.Extensions
 {
@@ -19,6 +20,9 @@ namespace UniversalAuthenticator.Common.Extensions
             services.AddScoped<ICommunicationService, CommunicationService>();
             services.AddScoped<IConfigurationService, ConfigurationService>();
             services.AddScoped<IHttpService, HttpService>();
+            services.AddScoped<IRequestTransmitter, RequestTransmitter>();
+            services.AddScoped<ILogManager, LogManager>();
+            services.AddSingleton<ITokenHandler, TokenHandler>();
         }
     }
 

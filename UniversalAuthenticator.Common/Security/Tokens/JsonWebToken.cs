@@ -23,6 +23,6 @@ namespace UniversalAuthenticator.Common.Security.Tokens
             Expiration = expiration;
         }
 
-        public bool IsExpired() => DateTime.UtcNow > Expiration;
+        public bool IsExpired() => DateTime.Now > Expiration;
     }
 }

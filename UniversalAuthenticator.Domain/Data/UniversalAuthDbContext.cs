@@ -41,7 +41,7 @@ namespace UniversalAuthenticator.Domain.Data
 
             modelBuilder.ApplyConfiguration(new PermissionConfiguration());
 
-            //modelBuilder.ApplyConfiguration(new RefreshTokenConfiguration());
+            modelBuilder.ApplyConfiguration(new ValidateTokenConfiguration());
 
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
 

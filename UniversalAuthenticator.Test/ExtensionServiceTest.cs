@@ -44,5 +44,12 @@ namespace UniversalAuthenticator.Test
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public void ShouldGenerate_RandomNumericNumbers()
+        {
+            var numbr = ExtensionsService.GenerateRandomNumbers(10);
+            Assert.NotEqual(0, numbr);  
+            Assert.True(numbr == 10);
+        }
     }
 }

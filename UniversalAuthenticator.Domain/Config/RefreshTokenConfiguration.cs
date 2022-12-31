@@ -38,6 +38,8 @@ namespace UniversalAuthenticator.Domain.Config
 
             builder.Property(x => x.Token).IsRequired();
 
+            
+
             builder.HasOne(u => u.User)
                 .WithMany(r => r.refreshTokens)
                 .HasForeignKey(r => r.UserId);
